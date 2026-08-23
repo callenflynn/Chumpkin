@@ -1,7 +1,7 @@
 //! End Dragon fight manager. Handles the dragon lifecycle, end crystal
 //! spawning, boss bar, gateway spawning, respawn sequence, and exit portal.
 //!
-//! Matches vanilla `EnderDragonFight` behaviour as closely as `PumpkinMC`'s
+//! Matches vanilla `EnderDragonFight` behaviour as closely as `Chumpkin`'s
 //! current API allows.
 
 use std::sync::Arc;

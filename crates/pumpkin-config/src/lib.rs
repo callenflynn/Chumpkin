@@ -65,7 +65,7 @@ use advancement::AdvancementConfig;
 use networking::NetworkingConfig;
 use player_data::PlayerDataConfig;
 use resource_pack::ResourcePackConfig;
-use world::LevelConfig;
+use world::{LevelConfig, WorldType};
 
 /// Root configuration container for Pumpkin server settings.
 #[derive(Deserialize, Serialize, Default)]

@@ -79,6 +79,7 @@ pub trait CustomChunkGenerator: Send + Sync {
 pub enum WorldGenerator {
     Noise(Box<VanillaGenerator>),
     Flat(flat::FlatGenerator),
+    Chumpkin(Box<ChumpkinGenerator>),
     Custom(Arc<dyn CustomChunkGenerator>),
 }
 
@@ -88,6 +89,7 @@ impl WorldGenerator {
         match self {
             Self::Noise(noise_gen) => &noise_gen.dimension,
             Self::Flat(flat_gen) => &flat_gen.dimension,
+            Self::Chumpkin(chumpkin_gen) => &chumpkin_gen.dimension,
             Self::Custom(custom_gen) => custom_gen.dimension(),
         }
     }
@@ -97,6 +99,7 @@ impl WorldGenerator {
         match self {
             Self::Noise(noise_gen) => noise_gen.random_config.seed,
             Self::Flat(flat_gen) => flat_gen.seed,
+            Self::Chumpkin(chumpkin_gen) => chumpkin_gen.random_config.seed,
             Self::Custom(custom_gen) => custom_gen.seed(),
         }
     }
@@ -108,6 +111,7 @@ impl WorldGenerator {
         match self {
             Self::Noise(noise_gen) => Some(&noise_gen.global_structure_cache),
             Self::Flat(_) => None,
+            Self::Chumpkin(chumpkin_gen) => Some(&chumpkin_gen.global_structure_cache),
             Self::Custom(custom_gen) => custom_gen.global_structure_cache(),
         }
     }
@@ -116,6 +120,7 @@ impl WorldGenerator {
     pub fn find_spawn_position(&self) -> pumpkin_util::math::position::BlockPos {
         match self {
             Self::Noise(noise_gen) => noise_gen.find_spawn_position(),
+            Self::Chumpkin(chumpkin_gen) => chumpkin_gen.find_spawn_position(),
             _ => pumpkin_util::math::position::BlockPos::ZERO,
         }
     }
@@ -202,3 +207,97 @@ impl GeneratorInit for VanillaGenerator {
         }
     }
 }
+
+/// Chumpkin world generator — same vanilla noise, but with 2048-block height
+/// so mountains can reach ~1500.
+pub struct ChumpkinGenerator {
+    pub random_config: GlobalRandomConfig,
+    pub base_router: ProtoNoiseRouters,
+    pub dimension: Dimension,
+    pub settings: &'static GenerationSettings,
+    pub biome_mixer_seed: i64,
+
+    pub terrain_cache: TerrainCache,
+
+    pub default_block: &'static BlockState,
+
+    pub global_structure_cache: crate::generation::structure::placement::GlobalStructureCache,
+    pub structure_calculator: StructurePlacementCalculator,
+    pub structure_allowed_biomes: FxHashMap<usize, Vec<u16>>,
+}
+
+impl ChumpkinGenerator {
+    #[must_use]
+    pub fn find_spawn_position(&self) -> pumpkin_util::math::position::BlockPos {
+        if self.settings.spawn_target.is_empty() {
+            return pumpkin_util::math::position::BlockPos::ZERO;
+        }
+        let options = crate::generation::noise::router::multi_noise_sampler::MultiNoiseSamplerBuilderOptions::new(1, 1, 1);
+        let mut sampler =
+            crate::generation::noise::router::multi_noise_sampler::MultiNoiseSampler::generate(
+                &self.base_router.multi_noise,
+                &options,
+            );
+        crate::biome::position_finder::SpawnFinder::find_spawn_position(
+            self.settings.spawn_target,
+            &mut sampler,
+        )
+    }
+}
+
+impl GeneratorInit for ChumpkinGenerator {
+    fn new(seed: Seed, dimension: Dimension) -> Self {
+        let base_settings = GenerationSettings::from_dimension(&dimension);
+        let random_config = GlobalRandomConfig::new(seed.0, base_settings.legacy_random_source);
+
+        // Build chumpkin shape: 2048 blocks tall, bottom at -64, tops out at 1984.
+        // Mountains naturally reach ~1500 with regular noise scaling.
+        let chumpkin_shape = pumpkin_data::chunk_gen_settings::GenerationShapeConfig {
+            min_y: -64i8,
+            height: 2048u16,
+            ..base_settings.shape
+        };
+        let settings: &'static GenerationSettings = Box::leak(Box::new(GenerationSettings {
+            shape: chumpkin_shape,
+            ..*base_settings
+        }));
+
+        let base = if dimension == Dimension::OVERWORLD {
+            OVERWORLD_BASE_NOISE_ROUTER
+        } else if dimension == Dimension::THE_NETHER {
+            NETHER_BASE_NOISE_ROUTER
+        } else if dimension == Dimension::THE_END {
+            END_BASE_NOISE_ROUTER
+        } else {
+            tracing::error!("Unsupported dimension for noise router: {:?}", dimension);
+            OVERWORLD_BASE_NOISE_ROUTER
+        };
+        let terrain_cache = TerrainCache::from_random(&random_config);
+
+        let default_block = settings.default_block;
+        let base_router = ProtoNoiseRouters::generate(&base, &random_config);
+        let biome_mixer_seed = crate::biome::hash_seed(seed.0);
+
+        let mut structure_allowed_biomes = FxHashMap::default();
+        for (i, set) in StructureSet::ALL.iter().enumerate() {
+            structure_allowed_biomes.insert(
+                i,
+                crate::generation::proto_chunk::ProtoChunk::get_allowed_biomes(set),
+            );
+        }
+
+        Self {
+            random_config,
+            base_router,
+            dimension,
+            settings,
+            biome_mixer_seed,
+            terrain_cache,
+            default_block,
+            global_structure_cache:
+                crate::generation::structure::placement::GlobalStructureCache::new(),
+            structure_calculator: StructurePlacementCalculator::new(seed.0 as i64),
+            structure_allowed_biomes,
+        }
+    }
+}

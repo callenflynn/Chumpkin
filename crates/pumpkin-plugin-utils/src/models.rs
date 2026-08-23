@@ -2,8 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Default Pumpkin Marketplace URL.
-pub const DEFAULT_MARKETPLACE_URL: &str = "https://market.pumpkinmc.org";
+/// Default Chumpkin Marketplace URL.
+pub const DEFAULT_MARKETPLACE_URL: &str = "https://github.com/callenflynn/Chumpkin";
 
 /// Metadata embedded in a Pumpkin WASM plugin by the marketplace or developer.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

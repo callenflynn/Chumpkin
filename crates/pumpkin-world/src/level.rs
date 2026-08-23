@@ -19,7 +19,7 @@ use crate::{
 };
 use arc_swap::ArcSwap;
 use dashmap::{DashMap, Entry};
-use pumpkin_config::{chunk::ChunkConfig, lighting::LightingEngineConfig, world::LevelConfig};
+use pumpkin_config::{chunk::ChunkConfig, lighting::LightingEngineConfig, world::{LevelConfig, WorldType}};
 use pumpkin_data::biome::Biome;
 use pumpkin_data::dimension::Dimension;
 use pumpkin_data::{Block, BlockStateId, block_properties::has_random_ticks, fluid::Fluid};
@@ -226,12 +226,14 @@ impl Level {
         }
 
         let seed = Seed(seed as u64);
+        let is_chumpkin = level_config.world_type == WorldType::Chumpkin;
         let world_gen: Arc<WorldGenerator> = Arc::from(get_world_gen(
             seed,
             dimension,
             is_flat,
             flat_layers,
             flat_biome,
+            is_chumpkin,
         ));
 
         let chunk_saver = match &level_config.chunk {

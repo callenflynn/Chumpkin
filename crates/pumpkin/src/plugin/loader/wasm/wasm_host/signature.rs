@@ -8,7 +8,7 @@ use wasmparser::{Parser, Payload};
 pub const WASM_SIGNATURE_SECTION: &str = "wasm_signature";
 pub const PUMPKIN_METADATA_SECTION: &str = "pumpkin.metadata";
 pub const PUMPKIN_MARKET_PUBLIC_KEY_URL: &str =
-    "https://market.pumpkinmc.org/api/v1/rest/public-key";
+    "https://github.com/callenflynn/Chumpkin";
 
 static MARKET_PUBLIC_KEY_CACHE: Mutex<Option<String>> = Mutex::new(None);
 
@@ -183,7 +183,7 @@ pub fn fetch_market_public_key() -> Result<String, String> {
     }
 
     let mut response = ureq::get(PUMPKIN_MARKET_PUBLIC_KEY_URL)
-        .header("User-Agent", "Pumpkin-MC")
+        .header("User-Agent", "Chumpkin")
         .call()
         .map_err(|e| format!("Failed to fetch public key from market: {e}"))?;
 

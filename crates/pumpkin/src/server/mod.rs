@@ -20,7 +20,7 @@ use crate::{
 use arc_swap::ArcSwap;
 use connection_cache::{CachedBranding, CachedStatus};
 use key_store::KeyStore;
-use pumpkin_config::{AdvancedConfiguration, BasicConfiguration};
+use pumpkin_config::{AdvancedConfiguration, BasicConfiguration, world::WorldType};
 use pumpkin_data::dimension::Dimension;
 use pumpkin_data::entity::EntityType;
 use pumpkin_util::permission::PermissionManager;
@@ -190,12 +190,20 @@ impl Server {
                     world_path.display(),
                     basic_config.seed.0 as i64
                 );
-                let overworld_gen = pumpkin_world::generation::generator::VanillaGenerator::new(
-                    basic_config.seed,
-                    Dimension::OVERWORLD,
-                );
                 let default_data =
-                    LevelData::from_world_generator(basic_config.seed, &overworld_gen);
+                    if advanced_config.world.world_type == WorldType::Chumpkin {
+                        let gen = pumpkin_world::generation::generator::ChumpkinGenerator::new(
+                            basic_config.seed,
+                            Dimension::OVERWORLD,
+                        );
+                        LevelData::from_chumpkin_generator(basic_config.seed, &gen)
+                    } else {
+                        let gen = pumpkin_world::generation::generator::VanillaGenerator::new(
+                            basic_config.seed,
+                            Dimension::OVERWORLD,
+                        );
+                        LevelData::from_world_generator(basic_config.seed, &gen)
+                    };
                 if let Err(err) = AnvilLevelInfo.write_world_info(&default_data, &world_path) {
                     error!("Failed to save level.dat: {err}");
                 }

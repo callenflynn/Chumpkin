@@ -1,9 +1,9 @@
-//! # Pumpkin Plugin Utilities (`pumpkin-plugin-utils`)
+//! # Chumpkin Plugin Utilities (`pumpkin-plugin-utils`)
 //!
-//! A fast, secure, and developer-friendly utility crate for Pumpkin server plugins, providing:
+//! A fast, secure, and developer-friendly utility crate for Chumpkin server plugins, providing:
 //! - **Automatic Metadata Caching**: Call `init(context)` once on load; marketplace metadata is retrieved from host WIT and cached globally.
 //! - **Zero-Argument Updates & Online Licensing**: Check licenses and updates against official Pumpkin Marketplace endpoints without manual arguments.
-//! - **Online License Checks**: Verify active licenses with `https://market.pumpkinmc.org/api/v1/rest/check-license`.
+//! - **Online License Checks**: Verify active licenses with `https://github.com/callenflynn/Chumpkin`.
 //! - **License Checks & Grace Periods**: Local lease management (`license_lease.json`) to prevent outages during marketplace downtime.
 //!
 //! # Quick Start
@@ -182,10 +182,10 @@ pub fn check_for_updates() -> Result<CheckUpdateResponse, UpdateError> {
 #[must_use]
 pub fn evaluate_license(grace_period_days: u32) -> LicenseStatus {
     let Some(folder) = get_data_folder() else {
-        return LicenseStatus::Invalid("pumpkin_plugin_utils has not been initialized".to_string());
+        return LicenseStatus::Invalid("chumpkin_plugin_utils has not been initialized".to_string());
     };
     let Some(meta) = get_metadata() else {
-        return LicenseStatus::Invalid("pumpkin_plugin_utils has not been initialized".to_string());
+        return LicenseStatus::Invalid("chumpkin_plugin_utils has not been initialized".to_string());
     };
     let checker = LicenseChecker::new(folder);
     checker.evaluate_license(meta, grace_period_days)

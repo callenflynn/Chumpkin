@@ -68,7 +68,7 @@ async fn main() {
         "{}",
         TextComponent::text(format!(
             "Starting {} {} Java Minecraft (Protocol {}) | {} Bedrock (Protocol {})",
-            TextComponent::text("Pumpkin")
+            TextComponent::text("Chumpkin")
                 .color_named(NamedColor::Gold)
                 .to_pretty_console(),
             TextComponent::text(CARGO_PKG_VERSION.to_string())
@@ -100,7 +100,7 @@ async fn main() {
     );
     if cfg!(debug_assertions) {
         warn!(
-            "Pumpkin is running an unoptimized debug build. Do not use this build for performance testing; run `cargo run --release` or use a release binary."
+            "Chumpkin is running an unoptimized debug build. Do not use this build for performance testing; run `cargo run --release` or use a release binary."
         );
     }
     print_support_links_and_warning();
@@ -175,13 +175,13 @@ async fn main() {
 fn print_support_links_and_warning() {
     warn!(
         "{}",
-        TextComponent::text("Pumpkin is currently under heavy development!")
+        TextComponent::text("Chumpkin is currently under heavy development!")
             .color_named(NamedColor::DarkRed)
             .to_pretty_console(),
     );
     info!(
         "Report issues on {}",
-        TextComponent::text("https://github.com/Pumpkin-MC/Pumpkin/issues")
+        TextComponent::text("https://github.com/callenflynn/Chumpkin/issues")
             .color_named(NamedColor::DarkAqua)
             .to_pretty_console()
     );
@@ -199,7 +199,7 @@ fn print_support_links_and_warning() {
         TextComponent::text("Donating")
             .color_named(NamedColor::DarkPurple)
             .to_pretty_console(),
-        TextComponent::text("https://pumpkinmc.org/donate/")
+        TextComponent::text("https://github.com/callenflynn/Chumpkin")
             .color_named(NamedColor::Gold)
             .to_pretty_console()
     );

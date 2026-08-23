@@ -17,7 +17,7 @@ pub mod rule;
 pub mod structure;
 mod surface;
 
-use generator::{GeneratorInit, VanillaGenerator};
+use generator::{ChumpkinGenerator, GeneratorInit, VanillaGenerator};
 use pumpkin_data::dimension::Dimension;
 use pumpkin_util::{
     random::xoroshiro128::{Xoroshiro, XoroshiroSplitter},
@@ -31,11 +31,16 @@ pub fn get_world_gen(
     is_flat: bool,
     flat_layers: Vec<generator::FlatLayer>,
     flat_biome: String,
+    is_chumpkin: bool,
 ) -> Box<generator::WorldGenerator> {
     if is_flat {
         Box::new(generator::WorldGenerator::Flat(
             generator::flat::FlatGenerator::new(seed, dimension, flat_layers, flat_biome),
         ))
+    } else if is_chumpkin {
+        Box::new(generator::WorldGenerator::Chumpkin(Box::new(
+            ChumpkinGenerator::new(seed, dimension),
+        )))
     } else {
         Box::new(generator::WorldGenerator::Noise(Box::new(
             VanillaGenerator::new(seed, dimension),
