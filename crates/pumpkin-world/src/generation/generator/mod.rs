@@ -259,7 +259,7 @@ impl GeneratorInit for ChumpkinGenerator {
         };
         let settings: &'static GenerationSettings = Box::leak(Box::new(GenerationSettings {
             shape: chumpkin_shape,
-            ..*base_settings
+            ..base_settings.clone()
         }));
 
         let base = if dimension == Dimension::OVERWORLD {

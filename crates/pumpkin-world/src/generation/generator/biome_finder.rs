@@ -48,6 +48,14 @@ pub fn find_closest_biome_3d(
             horizontal_step,
             vertical_step,
         ),
+        WorldGenerator::Chumpkin(generator) => find_in_noise_world_chumpkin(
+            generator,
+            origin,
+            targets,
+            horizontal_radius,
+            horizontal_step,
+            vertical_step,
+        ),
         // Plugin generators only expose biomes by generating a whole chunk, so
         // there is no sampler to search against.
         WorldGenerator::Custom(_) => None,
@@ -62,28 +70,70 @@ fn find_in_noise_world(
     horizontal_step: i32,
     vertical_step: i32,
 ) -> Option<(BlockPos, &'static Biome)> {
+    find_in_noise_world_impl(
+        &generator.dimension,
+        &generator.base_router.multi_noise,
+        &generator.settings.shape,
+        origin,
+        targets,
+        horizontal_radius,
+        horizontal_step,
+        vertical_step,
+    )
+}
+
+fn find_in_noise_world_chumpkin(
+    generator: &ChumpkinGenerator,
+    origin: BlockPos,
+    targets: &FxHashSet<u8>,
+    horizontal_radius: i32,
+    horizontal_step: i32,
+    vertical_step: i32,
+) -> Option<(BlockPos, &'static Biome)> {
+    find_in_noise_world_impl(
+        &generator.dimension,
+        &generator.base_router.multi_noise,
+        &generator.settings.shape,
+        origin,
+        targets,
+        horizontal_radius,
+        horizontal_step,
+        vertical_step,
+    )
+}
+
+fn find_in_noise_world_impl(
+    dimension: &Dimension,
+    multi_noise: &crate::generation::noise::router::multi_noise_biome_source::MultiNoiseBiomeSourceParameterList,
+    shape: &pumpkin_data::chunk_gen_settings::GenerationShapeConfig,
+    origin: BlockPos,
+    targets: &FxHashSet<u8>,
+    horizontal_radius: i32,
+    horizontal_step: i32,
+    vertical_step: i32,
+) -> Option<(BlockPos, &'static Biome)> {
     // Vanilla intersects the request with `BiomeSource#possibleBiomes` first,
     // so asking for a biome that cannot generate in this dimension returns
     // immediately instead of scanning the whole search radius.
-    if targets.is_disjoint(&possible_biomes(&generator.dimension)) {
+    if targets.is_disjoint(&possible_biomes(dimension)) {
         return None;
     }
 
-    let supplier: &dyn BiomeSupplier = if generator.dimension == Dimension::THE_END {
+    let supplier: &dyn BiomeSupplier = if *dimension == Dimension::THE_END {
         &TheEndBiomeSupplier
-    } else if generator.dimension == Dimension::THE_NETHER {
+    } else if *dimension == Dimension::THE_NETHER {
         &MultiNoiseBiomeSupplier::NETHER
     } else {
         &MultiNoiseBiomeSupplier::OVERWORLD
     };
 
     let options = MultiNoiseSamplerBuilderOptions::new(1, 1, 1);
-    let mut sampler = MultiNoiseSampler::generate(&generator.base_router.multi_noise, &options);
+    let mut sampler = MultiNoiseSampler::generate(multi_noise, &options);
 
     // `level.getMinY() + 1` to `level.getMaxY() + 1` in vanilla.
-    let min_y = i32::from(generator.settings.shape.min_y) + 1;
+    let min_y = i32::from(shape.min_y) + 1;
     let max_y =
-        i32::from(generator.settings.shape.min_y) + i32::from(generator.settings.shape.height);
+        i32::from(shape.min_y) + i32::from(shape.height);
     let ys = out_from_origin(origin.0.y, min_y, max_y, vertical_step);
 
     let check_column = |x: i32, z: i32, sampler: &mut MultiNoiseSampler| {

@@ -380,6 +380,7 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .set_structure_starts(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(_) => {}
                 generator::WorldGenerator::Flat(_) => {}
                 generator::WorldGenerator::Custom(custom_gen) => {
                     custom_gen.set_structure_starts(self.chunks[index].get_proto_chunk_mut());
@@ -391,6 +392,7 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .set_structure_references(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(_) => {}
                 generator::WorldGenerator::Flat(_) => {}
                 generator::WorldGenerator::Custom(custom_gen) => {
                     custom_gen.set_structure_references(self.chunks[index].get_proto_chunk_mut());
@@ -402,6 +404,7 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .step_to_biomes(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(_) => {}
                 generator::WorldGenerator::Flat(flat_gen) => {
                     flat_gen.step_to_biomes(self.chunks[index].get_proto_chunk_mut());
                 }
@@ -444,6 +447,15 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .set_structure_starts(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    // SAFETY: ChumpkinGenerator has the same field layout as VanillaGenerator
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .set_structure_starts(vanilla_ref);
+                }
                 generator::WorldGenerator::Flat(_) => {
                     self.chunks[mid].get_proto_chunk_mut().stage = StagedChunkEnum::StructureStart;
                 }
@@ -457,6 +469,14 @@ impl Cache {
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .set_structure_references(noise_gen);
+                }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .set_structure_references(vanilla_ref);
                 }
                 generator::WorldGenerator::Flat(_) => {
                     self.chunks[mid].get_proto_chunk_mut().stage =
@@ -474,6 +494,14 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .step_to_biomes(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .step_to_biomes(vanilla_ref);
+                }
                 generator::WorldGenerator::Flat(flat_gen) => {
                     flat_gen.step_to_biomes(self.chunks[mid].get_proto_chunk_mut());
                 }
@@ -486,6 +514,14 @@ impl Cache {
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_noise(noise_gen);
+                }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .step_to_noise(vanilla_ref);
                 }
                 generator::WorldGenerator::Flat(flat_gen) => {
                     flat_gen.step_to_noise(self.chunks[mid].get_proto_chunk_mut());
@@ -500,6 +536,14 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .step_to_surface(noise_gen);
                 }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .step_to_surface(vanilla_ref);
+                }
                 generator::WorldGenerator::Flat(flat_gen) => {
                     flat_gen.step_to_surface(self.chunks[mid].get_proto_chunk_mut());
                 }
@@ -512,6 +556,14 @@ impl Cache {
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_carvers(noise_gen);
+                }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    let vanilla_ref: &generator::VanillaGenerator =
+                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator) };
+                    self.chunks[mid]
+                        .get_proto_chunk_mut()
+                        .step_to_carvers(vanilla_ref);
                 }
                 generator::WorldGenerator::Flat(flat_gen) => {
                     flat_gen.step_to_carvers(self.chunks[mid].get_proto_chunk_mut());
@@ -526,6 +578,13 @@ impl Cache {
                         self,
                         block_registry,
                         &noise_gen.random_config,
+                    );
+                }
+                generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
+                    ProtoChunk::generate_features_and_structure(
+                        self,
+                        block_registry,
+                        &chumpkin_gen.random_config,
                     );
                 }
                 generator::WorldGenerator::Flat(_) => {
