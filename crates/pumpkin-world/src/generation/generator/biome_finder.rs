@@ -102,6 +102,7 @@ fn find_in_noise_world_chumpkin(
     )
 }
 
+#[allow(clippy::too_many_arguments)]
 fn find_in_noise_world_impl(
     dimension: &Dimension,
     multi_noise: &crate::generation::noise::router::proto_noise_router::ProtoMultiNoiseRouter,

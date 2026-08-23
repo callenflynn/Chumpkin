@@ -380,8 +380,7 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .set_structure_starts(noise_gen);
                 }
-                generator::WorldGenerator::Chumpkin(_) => {}
-                generator::WorldGenerator::Flat(_) => {}
+                generator::WorldGenerator::Chumpkin(_) | generator::WorldGenerator::Flat(_) => {}
                 generator::WorldGenerator::Custom(custom_gen) => {
                     custom_gen.set_structure_starts(self.chunks[index].get_proto_chunk_mut());
                 }
@@ -392,8 +391,7 @@ impl Cache {
                         .get_proto_chunk_mut()
                         .set_structure_references(noise_gen);
                 }
-                generator::WorldGenerator::Chumpkin(_) => {}
-                generator::WorldGenerator::Flat(_) => {}
+                generator::WorldGenerator::Chumpkin(_) | generator::WorldGenerator::Flat(_) => {}
                 generator::WorldGenerator::Custom(custom_gen) => {
                     custom_gen.set_structure_references(self.chunks[index].get_proto_chunk_mut());
                 }
@@ -425,7 +423,12 @@ impl Cache {
             chunks: Vec::with_capacity((size * size) as usize),
         }
     }
-    #[allow(clippy::too_many_lines)]
+    #[allow(
+        clippy::too_many_lines,
+        clippy::undocumented_unsafe_blocks,
+        clippy::ptr_as_ptr,
+        clippy::borrow_as_ptr
+    )]
     pub fn advance(
         &mut self,
         stage: StagedChunkEnum,
