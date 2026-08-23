@@ -300,4 +300,4 @@ impl GeneratorInit for ChumpkinGenerator {
             structure_allowed_biomes,
         }
     }
-}
+}

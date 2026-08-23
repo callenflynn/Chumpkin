@@ -19,7 +19,11 @@ use crate::{
 };
 use arc_swap::ArcSwap;
 use dashmap::{DashMap, Entry};
-use pumpkin_config::{chunk::ChunkConfig, lighting::LightingEngineConfig, world::{LevelConfig, WorldType}};
+use pumpkin_config::{
+    chunk::ChunkConfig,
+    lighting::LightingEngineConfig,
+    world::{LevelConfig, WorldType},
+};
 use pumpkin_data::biome::Biome;
 use pumpkin_data::dimension::Dimension;
 use pumpkin_data::{Block, BlockStateId, block_properties::has_random_ticks, fluid::Fluid};

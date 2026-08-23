@@ -335,7 +335,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text(github_translation)
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),,
+                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),
                     })
                     .hover_event(HoverEvent::show_text(TextComponent::text(
                         github_hover_translation,
@@ -353,7 +353,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text("[Donate]")
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://github.com/sponsors/callenflynn"),,
+                        url: Cow::from("https://github.com/sponsors/callenflynn"),
                     })
                     .hover_event(HoverEvent::show_text(donators_hover))
                     .rainbow()
@@ -370,7 +370,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text(website_translation)
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),,
+                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),
                     })
                     .hover_event(HoverEvent::show_text(TextComponent::text(
                         website_hover_translation,
