@@ -35,4 +35,4 @@ pub struct LevelConfig {
 
 const fn default_autosave_ticks() -> u64 {
     6000 // Default to 5 minutes at 20 TPS
-}
+}

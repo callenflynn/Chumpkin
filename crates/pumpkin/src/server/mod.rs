@@ -192,17 +192,17 @@ impl Server {
                 );
                 let default_data =
                     if advanced_config.world.world_type == WorldType::Chumpkin {
-                        let gen = pumpkin_world::generation::generator::ChumpkinGenerator::new(
+                        let generator = pumpkin_world::generation::generator::ChumpkinGenerator::new(
                             basic_config.seed,
                             Dimension::OVERWORLD,
                         );
-                        LevelData::from_chumpkin_generator(basic_config.seed, &gen)
+                        LevelData::from_chumpkin_generator(basic_config.seed, &generator)
                     } else {
-                        let gen = pumpkin_world::generation::generator::VanillaGenerator::new(
+                        let generator = pumpkin_world::generation::generator::VanillaGenerator::new(
                             basic_config.seed,
                             Dimension::OVERWORLD,
                         );
-                        LevelData::from_world_generator(basic_config.seed, &gen)
+                        LevelData::from_world_generator(basic_config.seed, &generator)
                     };
                 if let Err(err) = AnvilLevelInfo.write_world_info(&default_data, &world_path) {
                     error!("Failed to save level.dat: {err}");
