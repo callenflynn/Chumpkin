@@ -11,9 +11,9 @@ use std::time::{Duration, Instant};
 use crate::command::CommandResult;
 use crate::command::{CommandExecutor, CommandSender, args::ConsumedArgs, tree::CommandTree};
 
-const NAMES: [&str; 3] = ["pumpkin", "version", "ver"];
+const NAMES: [&str; 3] = ["chumpkin", "version", "ver"];
 
-const DESCRIPTION: &str = "Display information about Pumpkin.";
+const DESCRIPTION: &str = "Display information about Chumpkin.";
 
 const CACHE_DURATION: Duration = Duration::from_hours(24);
 
@@ -71,11 +71,11 @@ fn fetch_all_contributors_cached() -> Vec<Contributor> {
 fn fetch_all_contributors() -> Vec<Contributor> {
     let mut all_contributors = Vec::new();
     let mut next_url = Some(
-        "https://api.github.com/repos/Pumpkin-MC/Pumpkin/contributors?per_page=100".to_string(),
+        "https://api.github.com/repos/callenflynn/Chumpkin/contributors?per_page=100".to_string(),
     );
 
     while let Some(url) = next_url {
-        let response = ureq::get(&url).header("User-Agent", "Pumpkin-MC").call();
+        let response = ureq::get(&url).header("User-Agent", "Chumpkin").call();
 
         match response {
             Ok(mut res) => {
@@ -173,8 +173,8 @@ fn tier_color(tier_slug: &str, tier_name: &str) -> NamedColor {
 }
 
 fn fetch_donators_hover() -> TextComponent {
-    let url = "https://market.pumpkinmc.org/api/v1/rest/donators";
-    let response = ureq::get(url).header("User-Agent", "Pumpkin-MC").call();
+    let url = "https://github.com/callenflynn/Chumpkin";
+    let response = ureq::get(url).header("User-Agent", "Chumpkin").call();
 
     let mut donators_text = TextComponent::text("Click to open Donate\n\nDonators:\n");
 
@@ -335,7 +335,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text(github_translation)
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://github.com/Pumpkin-MC/Pumpkin"),
+                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),,
                     })
                     .hover_event(HoverEvent::show_text(TextComponent::text(
                         github_hover_translation,
@@ -353,7 +353,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text("[Donate]")
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://pumpkinmc.org/donate/"),
+                        url: Cow::from("https://github.com/sponsors/callenflynn"),,
                     })
                     .hover_event(HoverEvent::show_text(donators_hover))
                     .rainbow()
@@ -370,7 +370,7 @@ impl CommandExecutor for Executor {
             msg = msg.add_child(
                 TextComponent::text(website_translation)
                     .click_event(ClickEvent::OpenUrl {
-                        url: Cow::from("https://pumpkinmc.org/"),
+                        url: Cow::from("https://github.com/callenflynn/Chumpkin"),,
                     })
                     .hover_event(HoverEvent::show_text(TextComponent::text(
                         website_hover_translation,
