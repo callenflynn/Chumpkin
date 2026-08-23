@@ -9,7 +9,7 @@ use crate::generation::noise::router::multi_noise_sampler::{
     MultiNoiseSampler, MultiNoiseSamplerBuilderOptions,
 };
 
-use super::{VanillaGenerator, WorldGenerator};
+use super::{ChumpkinGenerator, VanillaGenerator, WorldGenerator};
 
 /// Finds the closest position whose sampled biome id is contained in
 /// `targets`, mirroring vanilla's `BiomeSource.findClosestBiome3d`.
@@ -104,7 +104,7 @@ fn find_in_noise_world_chumpkin(
 
 fn find_in_noise_world_impl(
     dimension: &Dimension,
-    multi_noise: &crate::generation::noise::router::multi_noise_biome_source::MultiNoiseBiomeSourceParameterList,
+    multi_noise: &crate::generation::noise::router::proto_noise_router::ProtoMultiNoiseRouter,
     shape: &pumpkin_data::chunk_gen_settings::GenerationShapeConfig,
     origin: BlockPos,
     targets: &FxHashSet<u8>,
