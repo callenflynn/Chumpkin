@@ -18,6 +18,22 @@ pub struct GenerationSettings {
     pub default_block: &'static BlockState,
     pub spawn_target: &'static [ParameterPoint],
 }
+
+impl Clone for GenerationSettings {
+    fn clone(&self) -> Self {
+        Self {
+            aquifers_enabled: self.aquifers_enabled,
+            ore_veins_enabled: self.ore_veins_enabled,
+            legacy_random_source: self.legacy_random_source,
+            sea_level: self.sea_level,
+            default_fluid: self.default_fluid,
+            shape: self.shape.clone(),
+            surface_rule: self.surface_rule.clone(),
+            default_block: self.default_block,
+            spawn_target: self.spawn_target,
+        }
+    }
+}
 pub struct GenerationShapeConfig {
     pub min_y: i8,
     pub height: u16,
