@@ -453,8 +453,8 @@ impl Cache {
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     // SAFETY: ChumpkinGenerator has the same field layout as VanillaGenerator
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
@@ -476,8 +476,8 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
@@ -501,8 +501,8 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
@@ -523,8 +523,8 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
@@ -545,8 +545,8 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
@@ -567,8 +567,8 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     let vanilla_ref: &generator::VanillaGenerator = unsafe {
-                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator)
+                        &*std::ptr::from_ref::<generator::ChumpkinGenerator>(&**chumpkin_gen)
+                            .cast::<generator::VanillaGenerator>()
                     };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
