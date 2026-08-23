@@ -132,8 +132,7 @@ fn find_in_noise_world_impl(
 
     // `level.getMinY() + 1` to `level.getMaxY() + 1` in vanilla.
     let min_y = i32::from(shape.min_y) + 1;
-    let max_y =
-        i32::from(shape.min_y) + i32::from(shape.height);
+    let max_y = i32::from(shape.min_y) + i32::from(shape.height);
     let ys = out_from_origin(origin.0.y, min_y, max_y, vertical_step);
 
     let check_column = |x: i32, z: i32, sampler: &mut MultiNoiseSampler| {

@@ -449,9 +449,10 @@ impl Cache {
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
                     // SAFETY: ChumpkinGenerator has the same field layout as VanillaGenerator
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .set_structure_starts(vanilla_ref);
@@ -471,9 +472,10 @@ impl Cache {
                         .set_structure_references(noise_gen);
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .set_structure_references(vanilla_ref);
@@ -495,9 +497,10 @@ impl Cache {
                         .step_to_biomes(noise_gen);
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_biomes(vanilla_ref);
@@ -516,9 +519,10 @@ impl Cache {
                         .step_to_noise(noise_gen);
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_noise(vanilla_ref);
@@ -537,9 +541,10 @@ impl Cache {
                         .step_to_surface(noise_gen);
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_surface(vanilla_ref);
@@ -558,9 +563,10 @@ impl Cache {
                         .step_to_carvers(noise_gen);
                 }
                 generator::WorldGenerator::Chumpkin(chumpkin_gen) => {
-                    let vanilla_ref: &generator::VanillaGenerator =
-                        unsafe { &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
-                            as *const generator::VanillaGenerator) };
+                    let vanilla_ref: &generator::VanillaGenerator = unsafe {
+                        &*(&**chumpkin_gen as *const generator::ChumpkinGenerator
+                            as *const generator::VanillaGenerator)
+                    };
                     self.chunks[mid]
                         .get_proto_chunk_mut()
                         .step_to_carvers(vanilla_ref);
