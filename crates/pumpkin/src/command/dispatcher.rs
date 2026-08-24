@@ -836,14 +836,14 @@ mod test {
     }
 
     #[test]
-    fn pumpkin_command_aliases() {
+    fn chumpkin_command_aliases() {
         let config = BasicConfiguration::default();
         let commands_config = pumpkin_config::CommandsConfig::default();
         let manager = PermissionManager::new();
         let dispatcher =
             default_dispatcher(&manager, &config, &commands_config).fallback_dispatcher;
 
-        let pumpkin_tree = dispatcher.get_tree("pumpkin").unwrap();
+        let pumpkin_tree = dispatcher.get_tree("chumpkin").unwrap();
         let version_tree = dispatcher.get_tree("version").unwrap();
         let ver_tree = dispatcher.get_tree("ver").unwrap();
 
