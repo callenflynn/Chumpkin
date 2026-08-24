@@ -56,7 +56,14 @@ impl WorldPortalExt for BlockRegistry {
 }
 
 fn make_world_gen() -> Box<WorldGenerator> {
-    get_world_gen(SEED, Dimension::OVERWORLD, false, Vec::new(), String::new())
+    get_world_gen(
+        SEED,
+        Dimension::OVERWORLD,
+        false,
+        Vec::new(),
+        String::new(),
+        false,
+    )
 }
 
 fn setup_cache(

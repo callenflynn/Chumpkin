@@ -402,6 +402,7 @@ mod tests {
             false,
             Vec::new(),
             String::new(),
+            false,
         );
         let chunk = ProtoChunk::new(0, 0, &generator);
         let outposts = &StructureSet::PILLAGER_OUTPOSTS;

@@ -925,7 +925,14 @@ mod tests {
 
         let _ = env_logger::try_init();
 
-        let generator = get_world_gen(Seed(0), Dimension::Overworld, false, Vec::new(), String::new());
+        let generator = get_world_gen(
+            Seed(0),
+            Dimension::Overworld,
+            false,
+            Vec::new(),
+            String::new(),
+            false,
+        );
 
         let temp_dir = TempDir::new().unwrap();
         let level_folder = LevelFolder {
@@ -1201,7 +1208,14 @@ mod tests {
 
         let _ = env_logger::try_init();
 
-        let generator = get_world_gen(Seed(0), Dimension::Overworld, false, Vec::new(), String::new());
+        let generator = get_world_gen(
+            Seed(0),
+            Dimension::Overworld,
+            false,
+            Vec::new(),
+            String::new(),
+            false,
+        );
 
         let temp_dir = TempDir::new().unwrap();
         let level_folder = LevelFolder {

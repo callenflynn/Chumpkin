@@ -60,6 +60,7 @@ fn bench_chunk_deserialization(c: &mut Criterion) {
         false,
         Vec::new(),
         String::new(),
+        false,
     );
     let chunk = generate_single_chunk(
         &dimension,

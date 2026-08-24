@@ -13,7 +13,14 @@ mod test {
         use pumpkin_data::structures::StructureKeys;
 
         let seed = Seed(1_782_124_772_053_846_960);
-        let world_gen = get_world_gen(seed, Dimension::OVERWORLD, false, Vec::new(), String::new());
+        let world_gen = get_world_gen(
+            seed,
+            Dimension::OVERWORLD,
+            false,
+            Vec::new(),
+            String::new(),
+            false,
+        );
         let WorldGenerator::Noise(generator) = &*world_gen else {
             unreachable!()
         };
@@ -46,7 +53,14 @@ mod test {
 
         let seed = Seed(1779920288596261407);
         let (cx, cz) = (67i32, 63i32);
-        let world_gen = get_world_gen(seed, Dimension::OVERWORLD, false, Vec::new(), String::new());
+        let world_gen = get_world_gen(
+            seed,
+            Dimension::OVERWORLD,
+            false,
+            Vec::new(),
+            String::new(),
+            false,
+        );
         let WorldGenerator::Noise(generator) = &*world_gen else {
             unreachable!()
         };
@@ -132,7 +146,7 @@ mod test {
         test_name: &str,
     ) {
         let seed = Seed(seed);
-        let world_gen = get_world_gen(seed, dimension, false, Vec::new(), String::new());
+        let world_gen = get_world_gen(seed, dimension, false, Vec::new(), String::new(), false);
         let mut chunk = ProtoChunk::new(chunk_x, chunk_z, &world_gen);
         let WorldGenerator::Noise(generator) = &*world_gen else {
             unreachable!()
@@ -217,7 +231,7 @@ mod test {
         test_name: &str,
     ) {
         let seed = Seed(seed);
-        let world_gen = get_world_gen(seed, dimension, false, Vec::new(), String::new());
+        let world_gen = get_world_gen(seed, dimension, false, Vec::new(), String::new(), false);
         let mut chunk = ProtoChunk::new(chunk_x, chunk_z, &world_gen);
         let WorldGenerator::Noise(generator) = &*world_gen else {
             unreachable!()

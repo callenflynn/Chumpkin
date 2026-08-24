@@ -71,6 +71,7 @@ fn bench_concurrent_chunk_generation(c: &mut Criterion) {
         false,
         Vec::new(),
         String::new(),
+        false,
     ));
     let block_registry = Arc::new(BlockRegistry);
 

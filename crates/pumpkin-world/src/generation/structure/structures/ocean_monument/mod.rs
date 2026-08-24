@@ -601,6 +601,7 @@ mod tests {
             false,
             Vec::new(),
             String::new(),
+            false,
         );
 
         for direction in [

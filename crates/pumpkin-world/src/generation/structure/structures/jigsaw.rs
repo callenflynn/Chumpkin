@@ -1102,6 +1102,7 @@ mod tests {
             false,
             Vec::new(),
             String::new(),
+            false,
         );
         let crate::generation::generator::WorldGenerator::Noise(world_gen) = world_gen.as_ref()
         else {
